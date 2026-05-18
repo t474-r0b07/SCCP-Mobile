@@ -1,0 +1,36 @@
+# Flutter/Dart
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+build/
+*.iml
+*.apk
+*.aab
+
+# Credenciales - NUNCA subir
+lib/core/constants/supabase_config_local.dart
+
+# Android local
+android/local.properties
+android/key.properties
+*.jks
+*.keystore
+
+# Documentación interna
+docs/
+
+# IDE
+.idea/
+.vscode/settings.json
+.metadata
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temporales
+pubspec.lock
+estructura.txt
+android/.gradle/
+android/app/google-services.json

@@ -1,0 +1,71 @@
+plugins {
+    id "com.android.application"
+    id "kotlin-android"
+    id "dev.flutter.flutter-gradle-plugin"
+    id "com.google.gms.google-services"
+    id "com.google.firebase.appdistribution"
+}
+
+def firebaseTesters = (project.findProperty("FIREBASE_TESTERS") ?: "").toString().trim()
+def firebaseGroups = (project.findProperty("FIREBASE_GROUPS") ?: "").toString().trim()
+def firebaseCredentials =
+    (project.findProperty("FIREBASE_CREDENTIALS") ?: "").toString().trim()
+def firebaseReleaseNotes =
+    (project.findProperty("FIREBASE_RELEASE_NOTES") ?: "SCCP build distribucion interna").toString()
+
+android {
+    namespace = "com.sccp.mobile"
+    compileSdk = 36
+    ndkVersion = "28.2.13676358"
+
+    compileOptions {
+        coreLibraryDesugaringEnabled true
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8
+    }
+
+    defaultConfig {
+        applicationId = "com.sccp.mobile"
+        minSdk = 24
+        targetSdk = 34
+        versionCode = 1
+        versionName = "3.0.0"
+        multiDexEnabled true
+    }
+
+    buildTypes {
+        release {
+            signingConfig = signingConfigs.debug
+            minifyEnabled false
+            shrinkResources false
+            firebaseAppDistribution {
+                artifactType = "APK"
+                releaseNotes = firebaseReleaseNotes
+                if (!firebaseTesters.isEmpty()) {
+                    testers = firebaseTesters
+                }
+                if (!firebaseGroups.isEmpty()) {
+                    groups = firebaseGroups
+                }
+                if (!firebaseCredentials.isEmpty()) {
+                    serviceCredentialsFile = firebaseCredentials
+                }
+            }
+        }
+    }
+}
+
+flutter {
+    source = "../.."
+}
+
+dependencies {
+    implementation 'androidx.multidex:multidex:2.0.1'
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.4'
+    implementation platform('com.google.firebase:firebase-bom:34.9.0')
+    implementation 'com.google.firebase:firebase-analytics'
+}
