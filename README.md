@@ -5,67 +5,212 @@
 ╚════██║██║     ██║     ██╔═══╝ 
 ███████║╚██████╗╚██████╗██║     
 ╚══════╝ ╚═════╝ ╚═════╝╚═╝     
+
+      M · O · B · I · L · E
+      
+       [SPECIALIZED ARMOR]
 ```
-> **Sistema de Control y Comando Policial — Mobile**  
-> `// built to protect. designed to detect.`
+
+> **Sistema de Control Policial — Custodia Domiciliaria**  
+> `// built to watch. designed to detect evasion.`
 
 ---
 
 ```bash
 $ whoami
-> tactical field application · Flutter · Android
+> guardian of compliance · Flutter · Android
 
 $ cat /etc/mission
-> real-time unit coordination
-> threat detection at the edge
-> offline resilience · sync on reconnect
+> 24/7 monitoring · subject surveillance
+> evasion detection · cognitive forensics
+> real-time alerting · zero tolerance anomaly
 
-$ uptime
-> [■■■■■■■■■░] hardened. always on.
+$ cat /status
+> ACTIVE MONITORING [■■■■■■■■■■] 100%
+> BACKEND SYNC [■■■■■■■■░░] 85%
+> BATTERY OPTIMIZATION [■■■■■■■░░░] 70%
 ```
 
 ---
 
 ## `> ./about.sh`
 
-This is the field unit of the SCCP platform.  
-It runs on the officer's device. It tracks. It reports. It resists.  
-Built from the dev side — hardened with the attacker's mindset.
+This is **NOT** a general field app.
+
+This is the **heavy armor** of the SCCP ecosystem.  
+It runs on ONE device. Watches ONE subject. 24/7.  
+Detects every anomaly: voice, GPS fakery, geofence breach, metadata corruption.
+
+Part of SCCP. Part of the broader platform.  
+But specialized for one mission: **evasion prevention**.
+
+Built from the dev side — hardened with the hunter's mindset.
 
 ---
 
-## `> cat features.txt`
+## `> cat deployment_context.txt`
 
 ```
-FIELD OPERATIONS
-  [✓] Real-time GPS reporting          continuous ping · < 1s
-  [✓] Incident reporting               structured · timestamped
-  [✓] Push notifications               server-driven alerts
-  [✓] Offline mode                     local queue · auto-sync
-  [✓] Background services              persistent · battery-aware
-
-SECURITY LAYER
-  [✗] GPS spoofing                     mock location detection
-  [✗] Root access                      Play Integrity check
-  [✗] VPN / proxy tunneling            interface fingerprinting
-  [✗] Session hijacking                token rotation
-  [✗] Tampered builds                  integrity verification
+PART OF: SCCP Ecosystem
+ROLE:    Specialized surveillance · home arrest monitoring
+SCOPE:   Permanent 24/7 watch on ONE subject
+TARGET:  Person under house arrest / electronic ankle alternative
+PARENT:  github.com/t474-r0b07/SCCP-DTEX (command center)
+STATUS:  Operational · ~4 weeks production
 ```
 
 ---
 
-## `> ls -la /stack`
+## `> cat what_this_does.txt`
+
+```
+NOT: General officer tracking (see DTEX Custodio for that)
+YES: Subject evasion detection
+
+LAYERS OF DETECTION
+
+[VOICE LAYER]
+  • Biometric voice recognition
+  • Confirms: is this the right person?
+  • Triggers: voice mismatch = ALERT_IMPERSONATION
+
+[GPS LAYER]
+  • Dual validation: device GPS + network triangulation
+  • Detects: spoofing, mock location, position jumping
+  • Triggers: GPS anomaly = ALERT_SPOOFING
+
+[GEOFENCE LAYER]
+  • Hardcoded home coordinates ± radius
+  • Real-time boundary monitoring
+  • Triggers: crossing perimeter = ALERT_ESCAPE
+
+[TELEMETRY LAYER]
+  • Metadata: battery, connectivity, last sync
+  • Anomaly: sudden shutdown, VPN activation, root detection
+  • Triggers: tampering = ALERT_DEVICE_COMPROMISE
+
+[BEHAVIORAL LAYER]
+  • Patterns: movement speed, frequency, timing
+  • Anomaly: 60km/h in 2 blocks = impossible
+  • Triggers: physics violation = ALERT_IMPLAUSIBLE_MOVEMENT
+```
+
+---
+
+## `> cat security_features.txt`
+
+```
+WHAT WE DETECT
+
+GPS Spoofing
+  ✓ Mock location API detection
+  ✓ Position velocity analysis (is 60km physically possible?)
+  ✓ Dual source validation (device + network triangulation)
+  → Evasion attempt caught in <100ms
+
+Biometric Tampering
+  ✓ Voice mismatch detection (not the enrolled subject)
+  ✓ Repeated failures → escalation
+  → Impersonation caught immediately
+
+Device Compromise
+  ✓ Root detection (SafetyNet / Play Integrity)
+  ✓ VPN detection (interface fingerprinting)
+  ✓ Emulator detection (device profiling)
+  → Manipulation attempt caught at startup
+
+Geofence Breach
+  ✓ Continuous boundary monitoring
+  ✓ Grace period: 0 seconds
+  ✓ Alert → command center → police dispatch
+  → Escape attempt alerted in real-time
+
+Data Exfiltration
+  ✓ Encrypted local storage (Hive + AES)
+  ✓ TLS pinning to Supabase
+  ✓ Token rotation every 15min
+  → Forensic integrity maintained
+
+WHAT WE DON'T ACCEPT
+
+• Mock locations
+• Root access
+• VPN tunneling
+• Biometric forgery
+• Geofence crossing
+• Device tampering
+```
+
+---
+
+## `> cat stack.txt`
 
 | Layer | Technology |
 |---|---|
 | Framework | Flutter · Dart |
 | Architecture | Clean Architecture |
-| State management | BLoC |
-| Backend | Supabase (shared platform) |
-| Auth | Supabase Auth + biometric lock |
+| State management | GetX (reactive) |
+| Backend | **Supabase (shared with SCCP-DTEX)** |
+| Auth | Biometric lock + Supabase Auth |
 | Realtime | Supabase Realtime · WebSocket |
-| Local storage | Hive · offline queue |
-| Security | Play Integrity · mock location detection · VPN fingerprinting |
+| Local storage | Encrypted Hive database |
+| Security | Play Integrity · voice biometrics · geofencing |
+
+---
+
+## `> cat ecosystem_context.txt`
+
+```
+PART OF THE SCCP UNIVERSE
+
+SCCP COMMAND CENTER (DTEX)
+├─ WebApp dashboard (tactical HUD)
+├─ Custodio Android (officer tracking · temp missions)
+├─ Supervisor Android (command mobile · coordination)
+└─ → github.com/t474-r0b07/SCCP-DTEX
+
+SCCP MOBILE (THIS REPO)
+├─ Subject evasion detection
+├─ Home arrest monitoring · 24/7 surveillance
+├─ Shared backend with DTEX
+└─ → github.com/t474-r0b07/SCCP-Mobile
+
+INFRASTRUCTURE: UNIFIED
+  • Same Supabase instance
+  • Same realtime subscriptions
+  • Same audit trail
+  • Different business logic (different use cases)
+
+ALERT ROUTING: UNIFIED
+  Officer pauses traffic (DTEX)     → OPERATIONAL ALERT
+  Subject crosses boundary (Mobile) → CRITICAL ALERT
+  All → Command center WebApp
+```
+
+---
+
+## `> cat /etc/author_signature`
+
+```
+> built by t474-r0b07
+> one operator on this stack
+> not a product pitch
+> this repo is the evidence
+> the repo is the challenge
+```
+
+> pistas y easter eggs no son accidente. si llegaste hasta aquí, ya entiendes quién está detrás.
+
+---
+
+## `> cat /etc/test_coverage`
+
+```
+> tests unitarios disponibles en:
+>   - test/core/utils
+>   - test/data/services/voice_biometric_service_test.dart
+> exactitud operativa validada en lógica de permisos y background.
+```
 
 ---
 
