@@ -918,8 +918,9 @@ class _FirstAccessOnboardingScreenState
       _biometricStatus = 'Grabando muestra ${_biometricSamples.length + 1}/3';
     });
 
+    String? path;
     try {
-      final path = await VoiceRecorderService.captureWavSample(
+      path = await VoiceRecorderService.captureWavSample(
         duration: const Duration(seconds: 4),
       );
       if (path == null) {
@@ -969,10 +970,12 @@ class _FirstAccessOnboardingScreenState
             ? 'Huella biometrica lista'
             : 'Muestra ${_biometricSamples.length}/3 registrada';
       });
-      try {
-        await File(path).delete();
-      } catch (_) {}
     } finally {
+      if (path != null) {
+        try {
+          await File(path).delete();
+        } catch (_) {}
+      }
       if (mounted) {
         setState(() => _isCapturingBiometric = false);
       }
