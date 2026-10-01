@@ -15,9 +15,6 @@ dependencies:
   
   # Backend
   supabase_flutter: ^2.0.0
-  sccp_shared:
-    path: ../sccp_suite/packages/sccp_shared
-  
   # Geolocalización
   geolocator: ^10.1.0
   permission_handler: ^11.0.1
