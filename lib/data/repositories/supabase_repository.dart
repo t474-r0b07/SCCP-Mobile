@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:flutter/foundation.dart';
-import 'package:sccp_shared/sccp_shared.dart';
 import '../../core/utils/parte_schedule_utils.dart';
 import '../../core/utils/utc_time_utils.dart';
 import '../models/oficial_model.dart';
@@ -470,7 +469,7 @@ class SupabaseRepository {
   Stream<List<RadioMessageModel>> watchRadioMessages(String idOficial) {
     final official = idOficial.trim();
     final base = _supabase
-        .from(SharedDb.tableRadioMensajes)
+        .from('radio_mensajes')
         .stream(primaryKey: ['id_mensaje']);
     final filtered = official.isEmpty ? base : base.eq('id_oficial', official);
 
