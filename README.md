@@ -17,14 +17,14 @@
 
 ```bash
 $ cat /etc/mission
-> Home arrest monitoring · subject surveillance
-> Evasion detection · cognitive forensics
-> Real-time alerting · zero tolerance anomaly
+> Monitoreo móvil especializado
+> GPS · geofencing · partes · alertas · radio
+> Servicios en segundo plano · telemetría operativa
 
 $ cat /status
-> ACTIVE MONITORING  [■■■■■■■■■■] 100%
-> BACKEND SYNC       [■■■■■■■■░░]  85%
-> BATTERY OPT        [■■■■■■■░░░]  70%
+> PUBLIC STATE        [ DEVELOPMENT / TESTING ]
+> BACKEND             [ SUPABASE ]
+> PLATFORM            [ ANDROID ]
 ```
 
 ---
@@ -33,9 +33,8 @@ $ cat /status
 
 This is **NOT** a general field app.
 
-This is the **heavy armor** of the SCCP ecosystem.  
-One device. One subject. 24/7.  
-Every anomaly — voice, GPS, geofence, metadata — gets caught.
+This is the mobile monitoring surface of the SCCP ecosystem.  
+The current implementation combines GPS, geofencing, operational reports, alerts, radio and background services.
 
 Built from the dev side.  
 Hardened from the other side.
@@ -49,12 +48,12 @@ NOT: General officer tracking — see DTEX Custodio for that.
 YES: Subject evasion detection.
 
 [VOICE LAYER]
-  Biometric voice recognition
-  Wrong person detected → ALERT_IMPERSONATION
+  Voice profile + biometric verification via Supabase RPC
+  Verification failure → operational rejection
 
 [GPS LAYER]
-  Dual validation: device GPS + network triangulation
-  Spoofing · mock location · position jump → ALERT_SPOOFING
+  GPS validation
+  Location permissions · movement data · operational telemetry
 
 [GEOFENCE LAYER]
   Hardcoded home coordinates ± radius
@@ -62,11 +61,11 @@ YES: Subject evasion detection.
 
 [TELEMETRY LAYER]
   Battery · connectivity · last sync
-  Sudden shutdown · VPN · root → ALERT_DEVICE_COMPROMISE
+  Background service health and operational state
 
 [BEHAVIORAL LAYER]
-  Movement speed · frequency · timing
-  60km/h across 2 blocks → ALERT_IMPLAUSIBLE_MOVEMENT
+  Movement and operational telemetry
+  Anomalies can be recorded as inconsistencies
 ```
 
 ---
@@ -75,13 +74,12 @@ YES: Subject evasion detection.
 
 ```
 FRAMEWORK     Flutter · Dart
-ARCHITECTURE  Clean Architecture
-STATE         GetX (reactive)
-BACKEND       Supabase — shared instance with SCCP-DTEX
-AUTH          Biometric lock + Supabase Auth
-REALTIME      Supabase Realtime · WebSocket
-STORAGE       Encrypted Hive (AES)
-SECURITY      Play Integrity · voice biometrics · geofencing
+ARCHITECTURE  Presentation · Data · Core
+STATE         Provider
+BACKEND       Supabase — shared ecosystem with SCCP-DTEX
+REALTIME      Supabase Realtime
+STORAGE       SharedPreferences + Flutter Secure Storage
+SECURITY      Permission checks · device binding · voice RPC · geofencing
 ```
 
 ---
@@ -94,24 +92,23 @@ ATTACK VECTOR      MITIGATION
 GPS spoofing    →  Mock location API detection
                    Velocity analysis (is 60km/h possible?)
                    Dual source validation
-                   → Caught in <100ms
+                   → Recorded as an operational anomaly
 
 Biometric       →  Voice mismatch detection
 tampering          Repeated failures → escalation
                    → Impersonation caught immediately
 
-Device          →  Root detection (SafetyNet / Play Integrity)
-compromise         VPN detection (interface fingerprinting)
-                   Emulator detection (device profiling)
-                   → Caught at startup
+Device          →  Device binding and operational session checks
+compromise         Background-service health checks
+                   → Operational state can be rejected or closed
 
 Geofence        →  Continuous boundary monitoring
 breach             Grace period: 0 seconds
                    → Escape alerted in real-time
 
-Data            →  TLS pinning to Supabase
-integrity          Token rotation every 15min
-                   → Forensic chain maintained
+Data            →  Supabase access + RPC validation
+integrity          Local sensitive data uses secure storage
+                   → Audit and operational records are persisted server-side
 ```
 
 > *Most apps are built to work.*  
@@ -166,7 +163,7 @@ ALERT ROUTING
 
 ```
 [⏳] field demo · coming soon
-     unlisted · YouTube · t474-r0b07
+     unlisted · YouTube · Tata Robot
 ```
 
 ---
@@ -174,7 +171,7 @@ ALERT ROUTING
 ## `> cat /etc/author_signature`
 
 ```
-built by t474-r0b07
+built by Tata Robot · GitHub: t474-r0b07
 one operator on this stack
 not a product pitch — this repo is the evidence
 the repo is the challenge
