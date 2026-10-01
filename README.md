@@ -1,223 +1,96 @@
+# SCCP-Mobile
+
+**SCCP-Mobile** es una aplicación Android desarrollada con Flutter/Dart para experimentar con monitoreo operativo, GPS, reportes, alertas, radio y servicios en segundo plano dentro del ecosistema SCCP.
+
+> **Estado público: desarrollo / testing**
+
+El repositorio contiene el cliente móvil. El backend de Supabase **no forma parte de este repositorio**: cada instalación o revisión independiente debe utilizar su propio proyecto Supabase y sus propias políticas de acceso.
+
+## Qué contiene
+
+- Aplicación Android en Flutter/Dart.
+- Captura y validación de ubicación.
+- Reportes operativos y partes.
+- Verificación de voz mediante el flujo implementado por el cliente y RPCs de Supabase.
+- Sesiones operativas y heartbeat.
+- Radio/mensajería operativa.
+- Servicios foreground y recuperación de tareas en segundo plano.
+- Almacenamiento local de estado y material sensible mediante los mecanismos correspondientes.
+
+El código refleja el estado actual del prototipo. Las capacidades de background, GPS, permisos, audio y compatibilidad entre dispositivos requieren pruebas físicas antes de considerarlas aptas para operación real.
+
+## Arquitectura
+
+```text
+Flutter / Dart
+├── Presentation
+├── Data
+│   └── SupabaseRepository
+└── Core
+    ├── configuración
+    ├── servicios de background
+    └── utilidades
+
+Android
+├── Foreground service
+├── Alarm / recovery components
+└── Location / audio / notification permissions
+
+Backend externo por instalación
+└── Supabase
+    ├── PostgreSQL
+    ├── RPCs utilizadas por el cliente
+    └── Realtime según la configuración de la instalación
 ```
-███████╗ ██████╗ ██████╗██████╗ 
-██╔════╝██╔════╝██╔════╝██╔══██╗
-███████╗██║     ██║     ██████╔╝
-╚════██║██║     ██║     ██╔═══╝ 
-███████║╚██████╗╚██████╗██║     
-╚══════╝ ╚═════╝ ╚═════╝╚═╝     
 
-      M · O · B · I · L · E
-      
-       [SPECIALIZED ARMOR]
-```
+## Backend Supabase
 
-> `// built to watch. designed to detect evasion.`
+El repositorio **no incluye**:
+- URL real de un proyecto Supabase.
+- Claves o credenciales privadas.
+- Datos operativos reales.
+- Migraciones o políticas RLS de una instancia de producción.
+- Perfiles de voz, embeddings biométricos u otros datos sensibles.
 
----
-
+La integración se configura en cada entorno mediante:
 ```bash
-$ cat /etc/mission
-> Monitoreo móvil especializado
-> GPS · geofencing · partes · alertas · radio
-> Servicios en segundo plano · telemetría operativa
-
-$ cat /status
-> PUBLIC STATE        [ DEVELOPMENT / TESTING ]
-> BACKEND             [ SUPABASE ]
-> PLATFORM            [ ANDROID ]
+flutter run \
+  --dart-define=SUPABASE_URL=https://TU-PROYECTO.supabase.co \
+  --dart-define=SUPABASE_ANON_KEY=TU_ANON_KEY
 ```
 
----
+El contrato de integración visible desde el cliente está documentado en [`BACKEND_SUPABASE.md`](./BACKEND_SUPABASE.md).
 
-## `> ./about.sh`
+## Seguridad y estado de despliegue
 
-This is **NOT** a general field app.
+Este repositorio es un proyecto público de **desarrollo/testing**, no un sistema certificado para operación productiva.
 
-This is the mobile monitoring surface of the SCCP ecosystem.  
-The current implementation combines GPS, geofencing, operational reports, alerts, radio and background services.
+Antes de un despliegue real deben revisarse, en el backend elegido y en el dispositivo:
+- autenticación y autorización;
+- RLS/policies de Supabase;
+- permisos de los RPC;
+- permisos Android;
+- vinculación de dispositivo;
+- ejecución en segundo plano y comportamiento con Doze/OEM;
+- protección y ciclo de vida de datos sensibles;
+- firma release;
+- pruebas físicas de GPS, audio, notificaciones y recuperación.
 
-Built from the dev side.  
-Hardened from the other side.
+La implementación de verificación de voz incluida en el cliente es experimental y no debe interpretarse como una certificación biométrica.
 
----
+## Instalación
 
-## `> cat what_this_does.txt`
+Consulta [`INSTALACION.md`](./INSTALACION.md) para configurar Flutter, Supabase y Android.
 
-```
-NOT: General officer tracking — see DTEX Custodio for that.
-YES: Subject evasion detection.
+## Documentación
 
-[VOICE LAYER]
-  Voice profile + biometric verification via Supabase RPC
-  Verification failure → operational rejection
+- [`INSTALACION.md`](./INSTALACION.md) — instalación y configuración local.
+- [`BACKEND_SUPABASE.md`](./BACKEND_SUPABASE.md) — contrato del backend esperado por el cliente.
+- [`SECURITY.md`](./SECURITY.md) — límites y consideraciones de seguridad.
+- [`CHALLENGE.md`](./CHALLENGE.md) — contexto del proyecto y canal de referencia.
 
-[GPS LAYER]
-  GPS validation
-  Location permissions · movement data · operational telemetry
+## Autor
 
-[GEOFENCE LAYER]
-  Hardcoded home coordinates ± radius
-  Perimeter crossed → ALERT_ESCAPE
+**Tata Robot** · GitHub: [t474-r0b07](https://github.com/t474-r0b07)
 
-[TELEMETRY LAYER]
-  Battery · connectivity · last sync
-  Background service health and operational state
-
-[BEHAVIORAL LAYER]
-  Movement and operational telemetry
-  Anomalies can be recorded as inconsistencies
-```
-
----
-
-## `> cat stack.txt`
-
-```
-FRAMEWORK     Flutter · Dart
-ARCHITECTURE  Presentation · Data · Core
-STATE         Provider
-BACKEND       Supabase — shared ecosystem with SCCP-DTEX
-REALTIME      Supabase Realtime
-STORAGE       SharedPreferences + Flutter Secure Storage
-SECURITY      Permission checks · device binding · voice RPC · geofencing
-```
-
----
-
-## `> cat threat_model.txt`
-
-```
-ATTACK VECTOR      MITIGATION
-──────────────     ───────────────────────────────────────
-GPS spoofing    →  Mock location API detection
-                   Velocity analysis (is 60km/h possible?)
-                   Dual source validation
-                   → Recorded as an operational anomaly
-
-Biometric       →  Voice mismatch detection
-tampering          Repeated failures → escalation
-                   → Impersonation caught immediately
-
-Device          →  Device binding and operational session checks
-compromise         Background-service health checks
-                   → Operational state can be rejected or closed
-
-Geofence        →  Continuous boundary monitoring
-breach             Grace period: 0 seconds
-                   → Escape alerted in real-time
-
-Data            →  Supabase access + RPC validation
-integrity          Local sensitive data uses secure storage
-                   → Audit and operational records are persisted server-side
-```
-
-> *Most apps are built to work.*  
-> *This one was built assuming someone will try to break it.*
-
----
-
-## `> cat ecosystem_context.txt`
-
-```
-SCCP COMMAND CENTER (DTEX)
-├─ WebApp dashboard (tactical HUD)
-├─ Custodio Android (officer tracking · field missions)
-├─ Supervisor Android (mobile command · coordination)
-└─ → github.com/t474-r0b07/SCCP-DTEX
-
-SCCP MOBILE (THIS REPO)
-├─ Subject evasion detection
-├─ Home arrest monitoring · 24/7
-├─ Shared backend with DTEX
-└─ → github.com/t474-r0b07/SCCP-Mobile
-
-INFRASTRUCTURE: UNIFIED
-  Same Supabase instance · same realtime subscriptions
-  Same audit trail · different business logic
-
-ALERT ROUTING
-  Officer anomaly (DTEX)   → OPERATIONAL ALERT
-  Subject breach (Mobile)  → CRITICAL ALERT
-  All → Command Center WebApp
-```
-
----
-
-## `> cat /var/log/design_decisions.log`
-
-> **Why Flutter?**  
-> One codebase shared with the command WebApp.  
-> Officer and commander run the same logic. No drift.
-
-> **Why offline-first?**  
-> A field app that dies without signal is a liability.  
-> Queue locally. Sync when possible. Never lose an event.
-
-> **Why threat modeling on a mobile app?**  
-> Because the weakest point of a command platform  
-> is the device in the field officer's pocket.
-
----
-
-## `> ./demo.sh`
-
-```
-[⏳] field demo · coming soon
-     unlisted · YouTube · Tata Robot
-```
-
----
-
-## `> cat /etc/author_signature`
-
-```
-built by Tata Robot · GitHub: t474-r0b07
-one operator on this stack
-not a product pitch — this repo is the evidence
-the repo is the challenge
-```
-
----
-
-> `[!]` · [`signal detected`](./CHALLENGE.md) · origin unknown
-
----
-
-```
-████████████████████████████████████████████████████
-█                                                  █
-█   T A C T I C A L   A W A R E N E S S           █
-█             I S   N O T   O P T I O N A L       █
-█                                                  █
-████████████████████████████████████████████████████
-```
-
----
-
-## `> cat /etc/license`
-
-```
-© t474-r0b07 · All Rights Reserved
-This code is not open source.
-Viewing ≠ permission to use, copy, or distribute.
-```
-
----
-
-<!--
-  ┌─────────────────────────────────────────────────────┐
-  │  [DECLASSIFIED] · DOD · 1995                        │
-  │  PROJECT 621B — NAVSTAR GPS                         │
-  ├─────────────────────────────────────────────────────┤
-  │                                                     │
-  │  Originally designed to guide nuclear warheads.     │
-  │  Declassified for civilian use: 1983.               │
-  │  Selective Availability disabled: May 1, 2000.      │
-  │                                                     │
-  │  The same system that tracks ICBMs                  │
-  │  now tracks your delivery driver.                   │
-  │                                                     │
-  │  >> https://www.gps.gov/systems/gps/history/        │
-  │                                                     │
-  └─────────────────────────────────────────────────────┘
--->
+Este repositorio funciona como evidencia técnica del desarrollo y como base reproducible para revisión y experimentación.
