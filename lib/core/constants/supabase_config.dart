@@ -1,6 +1,14 @@
 class SupabaseConfig {
-  static const String url = 'YOUR_SUPABASE_URL';
-  static const String anonKey = 'YOUR_SUPABASE_ANON_KEY';
+  static const String url = String.fromEnvironment(
+    'SUPABASE_URL',
+    defaultValue: '',
+  );
+
+  static const String anonKey = String.fromEnvironment(
+    'SUPABASE_ANON_KEY',
+    defaultValue: '',
+  );
+
   static const Duration backgroundInterval = Duration(minutes: 6);
   static const double maxDistanceMeters = 50.0;
   static const List<String> reportTimes = [
